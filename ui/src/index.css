@@ -1,0 +1,290 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ReactFlow styles are now imported in SchemaManagementPage.tsx */
+
+@layer base {
+  :root {
+    /* === 品牌色体系：深靛蓝 + 琥珀橙 === */
+    --color-primary: #334155;
+    --color-user-message: #334155;
+    --color-user-message-bg: #f1f5f9;
+    --color-avatar-bg: #f8fafc;
+    --color-secondary: #57534e;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-background: #fafaf9;
+    --color-subagent-hover: #e2e8f0;
+    --color-surface: #ffffff;
+    --color-border: #e7e5e4;
+    --color-border-light: #f5f5f4;
+    --color-text-primary: #1c1917;
+    --color-text-secondary: #57534e;
+    --color-text-tertiary: #a8a29e;
+    --color-file-button: #ffffff;
+    --color-file-button-hover: #f5f5f4;
+    --color-bg: #fafaf9;
+
+    /* 强调色（琥珀橙）用于标签、图表、CTA */
+    --color-accent: #f59e0b;
+    --color-accent-hover: #d97706;
+    --color-accent-light: #fffbeb;
+
+    /* Layout variables */
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 60px;
+    --header-height: 64px;
+    --panel-width: 40vw;
+    --chat-max-width: 900px;
+
+    /* Tailwind/Radix UI component variables */
+    --radius: 8px;
+    --background: 30 6% 98%;
+    --foreground: 24 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 24 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 10% 10%;
+    --primary: 215 25% 27%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 6% 95%;
+    --secondary-foreground: 24 10% 10%;
+    --muted: 30 6% 95%;
+    --muted-foreground: 25 6% 45%;
+    --accent: 30 6% 95%;
+    --accent-foreground: 24 10% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 24 6% 90%;
+    --input: 24 6% 90%;
+    --ring: 215 25% 27%;
+    --sidebar: 30 6% 96%;
+    --chart-1: 215 25% 27%;
+    --chart-2: 158 60% 42%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 270 50% 50%;
+    --chart-5: 340 75% 55%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-primary: #475569;
+      --color-user-message: #475569;
+      --color-user-message-bg: #1e293b;
+      --color-avatar-bg: #0f172a;
+      --color-secondary: #d6d3d1;
+      --color-success: #34d399;
+      --color-warning: #fbbf24;
+      --color-error: #f87171;
+      --color-background: #0c0a09;
+      --color-subagent-hover: #334155;
+      --color-surface: #1c1917;
+      --color-border: #44403c;
+      --color-border-light: #292524;
+      --color-text-primary: #fafaf9;
+      --color-text-secondary: #d6d3d1;
+      --color-text-tertiary: #a8a29e;
+      --color-file-button: #1c1917;
+      --color-file-button-hover: #292524;
+      --color-bg: #000000;
+      --color-accent: #fbbf24;
+      --color-accent-hover: #f59e0b;
+      --color-accent-light: #451a03;
+
+      --background: 24 10% 5%;
+      --foreground: 30 6% 94%;
+      --card: 24 10% 8%;
+      --card-foreground: 30 6% 94%;
+      --popover: 24 10% 8%;
+      --popover-foreground: 30 6% 94%;
+      --primary: 215 20% 45%;
+      --primary-foreground: 0 0% 8%;
+      --secondary: 24 6% 18%;
+      --secondary-foreground: 30 6% 94%;
+      --muted: 24 6% 18%;
+      --muted-foreground: 24 6% 60%;
+      --accent: 24 6% 18%;
+      --accent-foreground: 30 6% 94%;
+      --destructive: 0 63% 71%;
+      --destructive-foreground: 0 0% 8%;
+      --border: 24 6% 20%;
+      --input: 24 6% 20%;
+      --ring: 215 20% 45%;
+      --sidebar: 24 10% 8%;
+      --chart-1: 215 20% 45%;
+      --chart-2: 158 60% 42%;
+      --chart-3: 38 92% 50%;
+      --chart-4: 270 50% 50%;
+      --chart-5: 340 75% 55%;
+    }
+  }
+}
+
+@layer base {
+  @keyframes enter {
+    from {
+      opacity: var(--tw-enter-opacity, 1);
+      transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1));
+    }
+  }
+  @keyframes exit {
+    to {
+      opacity: var(--tw-exit-opacity, 1);
+      transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1));
+    }
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation: enter 0.15s ease-out;
+  }
+  .animate-out {
+    animation: exit 0.15s ease-out;
+  }
+  .fade-in-0 {
+    --tw-enter-opacity: 0;
+  }
+  .fade-out-0 {
+    --tw-exit-opacity: 0;
+  }
+  .zoom-in-95 {
+    --tw-enter-scale: 0.95;
+  }
+  .zoom-out-95 {
+    --tw-exit-scale: 0.95;
+  }
+  .slide-in-from-top-2 {
+    --tw-enter-translate-y: -0.5rem;
+  }
+  .slide-in-from-right-2 {
+    --tw-enter-translate-x: 0.5rem;
+  }
+  .slide-in-from-left-2 {
+    --tw-enter-translate-x: -0.5rem;
+  }
+  .slide-in-from-bottom-2 {
+    --tw-enter-translate-y: 0.5rem;
+  }
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+}
+
+.logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 0 24px 0 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl .logo {
+  float: right;
+  margin: 0 0 0 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.ant-menu-horizontal {
+  border-bottom: none;
+}
+
+.schema-canvas {
+  width: 100%;
+  height: 600px;
+  background-color: #fafaf9;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+}
+
+.table-node {
+  padding: 10px;
+  border-radius: 8px;
+  width: 200px;
+  font-size: 12px;
+  color: #1c1917;
+  text-align: left;
+  border-width: 1px;
+  border-style: solid;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.table-node .title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e7e5e4;
+  padding-bottom: 5px;
+  color: #1c1917;
+}
+
+.table-node .column {
+  margin: 2px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-node .column .name {
+  flex: 1;
+}
+
+.table-node .column .type {
+  color: #a8a29e;
+  font-size: 10px;
+}
+
+.table-node .column.primary-key {
+  font-weight: 600;
+}
+
+.table-node .column.foreign-key {
+  color: #334155;
+}
+
+.react-flow__edge-path {
+  stroke: #d6d3d1;
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #334155;
+}
+
+.edgebutton {
+  width: 20px;
+  height: 20px;
+  background: #f5f5f4;
+  border: 1px solid #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+}

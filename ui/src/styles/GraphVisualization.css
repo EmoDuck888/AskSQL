@@ -1,0 +1,474 @@
+/* 炫酷节点样式 */
+.graph-node {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.graph-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s;
+}
+
+.graph-node:hover::before {
+  left: 100%;
+}
+
+.graph-node:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.2),
+    0 0 25px rgba(51, 65, 85, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  z-index: 10;
+}
+
+.graph-node.selected {
+  box-shadow:
+    0 0 0 4px #334155,
+    0 12px 30px rgba(51, 65, 85, 0.5),
+    0 0 40px rgba(51, 65, 85, 0.3) !important;
+  z-index: 10;
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 3px #334155,
+      0 8px 25px rgba(51, 65, 85, 0.4),
+      0 0 30px rgba(51, 65, 85, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px #334155,
+      0 8px 25px rgba(51, 65, 85, 0.6),
+      0 0 40px rgba(51, 65, 85, 0.4);
+  }
+}
+
+/* 表节点和列节点容器 */
+.table-node-container,
+.column-node-container {
+  position: relative;
+  z-index: 5;
+}
+
+/* 确保节点在边的上方 */
+.react-flow__node {
+  z-index: 5;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.react-flow__edge {
+  z-index: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 确保节点内容可见 */
+.react-flow__node-table,
+.react-flow__node-column {
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: all !important;
+}
+
+.table-node {
+  border-radius: 4px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.column-node {
+  border-radius: 8px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 节点交互 */
+.react-flow__node {
+  cursor: pointer;
+}
+
+/* 控制按钮样式 */
+.react-flow__controls {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background-color: white;
+  padding: 4px;
+}
+
+.react-flow__controls-button {
+  border-radius: 4px;
+  background: white;
+  border: 1px solid #d9d9d9;
+  color: #334155;
+  margin: 2px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-flow__controls-button:hover {
+  background: #f0f0f0;
+}
+
+/* 炫酷边样式 */
+.react-flow__edge-path {
+  transition: all 0.3s ease;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  stroke-width: 3px;
+}
+
+.react-flow__edge-path:hover {
+  stroke-width: 5px;
+  filter: drop-shadow(0 4px 12px rgba(51, 65, 85, 0.6));
+}
+
+/* 流动动画边 */
+.animated-edge {
+  stroke-dasharray: 5;
+  animation: dash 1s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* 渐变边 */
+.gradient-edge {
+  stroke: url(#gradient);
+}
+
+/* 脉冲边 */
+.pulse-edge {
+  animation: pulse-edge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-edge {
+  0%, 100% {
+    stroke-width: 2;
+    opacity: 0.7;
+  }
+  50% {
+    stroke-width: 4;
+    opacity: 1;
+  }
+}
+
+/* 背景和其他元素 */
+.react-flow__background {
+  background-color: #fafafa;
+}
+
+.react-flow__attribution {
+  background: transparent;
+  color: #8c8c8c;
+}
+
+/* 确保连接点可见 */
+.react-flow__handle {
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #334155;
+  border: 2px solid white;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 确保画布内容可见 */
+.react-flow__viewport {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 确保边标签可见 */
+.react-flow__edge-label {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1000;
+}
+
+/* 确保边箭头可见 */
+.react-flow__arrowhead {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+/* 面板样式 */
+.react-flow__panel {
+  z-index: 5;
+}
+
+/* 炫酷节点类型样式 */
+.table-node-cool {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(51, 65, 85, 0.4);
+}
+
+.table-node-cool::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.table-node-cool:hover::after {
+  transform: translateX(100%);
+}
+
+.column-node-cool {
+  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  color: white;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
+}
+
+.column-node-cool::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.column-node-cool:hover::after {
+  opacity: 1;
+}
+
+/* 关系节点样式 */
+.relation-node-cool {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+}
+
+/* 节点图标样式 */
+.node-icon {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 16px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 连接点增强样式 */
+.react-flow__handle {
+  width: 12px !important;
+  height: 12px !important;
+  background: linear-gradient(135deg, #334155, #475569);
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(51, 65, 85, 0.4);
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: all 0.3s ease;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.3);
+  box-shadow: 0 4px 12px rgba(51, 65, 85, 0.6);
+}
+
+/* 背景增强 */
+.react-flow__background {
+  background: #ffffff;
+}
+
+/* ReactFlow容器增强 */
+.react-flow {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* 确保画布清晰 */
+.react-flow__renderer {
+  background: transparent;
+}
+
+.react-flow__viewport {
+  background: transparent;
+}
+
+/* 控制按钮增强 */
+.react-flow__controls {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.react-flow__controls-button {
+  border-radius: 6px;
+  background: linear-gradient(135deg, #ffffff, #f5f5f5);
+  border: 1px solid rgba(51, 65, 85, 0.2);
+  color: #334155;
+  margin: 2px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.react-flow__controls-button:hover {
+  background: linear-gradient(135deg, #334155, #475569);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(51, 65, 85, 0.3);
+}
+
+/* 边动画效果 */
+@keyframes electric-flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+/* 粒子流动效果 */
+.particle-flow {
+  animation: particle-move 3s linear infinite;
+}
+
+@keyframes particle-move {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* 边标签增强 */
+.react-flow__edge-label {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(51, 65, 85, 0.2);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #57534e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.react-flow__edge-label:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(51, 65, 85, 0.15);
+}
+
+/* 箭头增强 */
+.react-flow__arrowhead {
+  opacity: 1 !important;
+  visibility: visible !important;
+  fill: currentColor;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* 选择框增强 */
+.react-flow__selection {
+  background: rgba(51, 65, 85, 0.05);
+  border: 2px dashed #334155;
+  border-radius: 4px;
+}
+
+/* 小地图增强 */
+.react-flow__minimap {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(51, 65, 85, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(51, 65, 85, 0.2);
+  stroke: #334155;
+  stroke-width: 2;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .graph-node {
+    transform: scale(0.9);
+  }
+
+  .react-flow__controls {
+    padding: 6px;
+  }
+
+  .react-flow__controls-button {
+    width: 28px;
+    height: 28px;
+  }
+}
+
