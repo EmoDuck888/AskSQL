@@ -1,23 +1,26 @@
-# AskSQL 最小编排：api + falkordb。
-# postgres/redis 不需要——主服务（start_api.py）的 agent 进程内运行，
-# DATABASE_URI/REDIS_URI 只被独立的 LangGraph server（start_server_postgres.py）使用，不在此编排内。
+# AskSQL 编排：api（+ 可选 Caddy）。
+#
+# 中间件说明（重要）：FalkorDB 复用宿主机上已在运行的实例，不在此编排内。
+# 宿主机 .env 里的 FALKORDB_URL 指向它（如 falkor://<主机IP>:6379）。
+#
+# 镜像策略：image + build 同时声明。
+#   本地开发：docker compose up -d          → 从源码构建
+#   云主机部署：IMAGE_TAG=<git sha> docker compose up -d  → 拉取 ghcr 预构建镜像
 
 services:
   api:
+    image: ghcr.io/emoduck888/asksql-api:${IMAGE_TAG:-latest}
     build: .
     ports:
       - "8065:8065"
     env_file: .env
-    environment:
-      # 容器内 localhost 指容器自己；compose 内部通信用 service 名。
-      # 注意：environment 优先级高于 env_file，这会覆盖 .env 里的 FALKORDB_URL
-      FALKORDB_URL: falkor://falkordb:6379
+    # 让容器能访问「宿主机」上运行的 FalkorDB（Linux 下 host.docker.internal
+    # 默认不存在，host-gateway 映射到宿主机网关）
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       # SQLite 管理库持久化；容器内默认路径即包目录下的 data/manage.db
       - manage_data:/app/backend/src/app/data
-    depends_on:
-      falkordb:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8065/health', timeout=5)"]
       interval: 30s
@@ -25,19 +28,27 @@ services:
       retries: 3
       start_period: 60s   # 首次启动要跑迁移 + 冷启动，放宽一点
 
-  falkordb:
-    image: falkordb/falkordb:latest
-    # 不映射到宿主机端口，仅供 compose 内部访问；需要外部调试时取消下一行注释
-    # ports:
-    #   - "6379:6379"
+  # 反代 + 自动 HTTPS。域名未就绪前不起用：
+  #   启用：docker compose --profile web up -d
+  #   前提：DNS A 记录指向本机 + 防火墙放行 80/443 + .env 里 DOMAIN=你的域名
+  caddy:
+    image: caddy:2
+    profiles: ["web"]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # 不设 DOMAIN 也不影响本地开发（caddy 在 profile 里默认不起）；
+      # 起 --profile web 时必须在 .env 里配 DOMAIN，否则 Caddy 启动即报错
+      DOMAIN: ${DOMAIN:-}
     volumes:
-      - falkordb_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 12
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
 
 volumes:
   manage_data:
-  falkordb_data:
+  caddy_data:
+  caddy_config:

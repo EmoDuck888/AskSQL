@@ -1,0 +1,5 @@
+# Caddy 反代：域名 → api 服务（compose 内部 DNS 解析 service 名）。
+# DOMAIN 由 compose 的 environment 注入；证书由 Caddy 自动申请和续期。
+{$DOMAIN} {
+	reverse_proxy api:8065
+}
