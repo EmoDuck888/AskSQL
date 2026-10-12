@@ -1,0 +1,44 @@
+# ── 版本控制 / 密钥 ──
+.git
+.gitignore
+.env
+*.env
+!.env.example
+
+# ── Python ──
+.venv
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.coverage
+htmlcov
+
+# ── 前端（主服务不托管静态文件，整个 ui/ 都不进镜像）──
+ui
+
+# ── 运行时数据（以卷的形式挂载，绝不烤进镜像）──
+backend/src/app/data
+backend/src/app/workspace
+*.db
+*.sqlite
+
+# ── 主服务用不到的东西 ──
+# 独立 LangGraph server 的备份/源码/运行时（start_api.py 的 agent 是进程内运行的）
+langgraph_api_0.5.23_backup
+langgraph_source
+langgraph_runtime_postgres
+langgraph_license
+storage
+tests
+docs
+assets
+
+# ── 构建自身 ──
+Dockerfile
+docker-compose.yml
+.dockerignore

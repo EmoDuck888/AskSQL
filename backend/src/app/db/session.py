@@ -30,10 +30,15 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 async def init_db() -> None:
-    """Initialize the management database tables."""
-    from app.models.database import Base
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    """Verify the management database is reachable.
+
+    Schema creation/migration is owned by Alembic (see backend/migrations);
+    run `uv run alembic upgrade head` before starting the app. This function
+    only checks connectivity so a missing or unreachable database fails
+    fast at startup instead of mid-request.
+    """
+    async with engine.connect():
+        pass
 
 
 async def get_session() -> AsyncSession:

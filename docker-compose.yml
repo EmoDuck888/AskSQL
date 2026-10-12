@@ -1,0 +1,43 @@
+# AskSQL 最小编排：api + falkordb。
+# postgres/redis 不需要——主服务（start_api.py）的 agent 进程内运行，
+# DATABASE_URI/REDIS_URI 只被独立的 LangGraph server（start_server_postgres.py）使用，不在此编排内。
+
+services:
+  api:
+    build: .
+    ports:
+      - "8065:8065"
+    env_file: .env
+    environment:
+      # 容器内 localhost 指容器自己；compose 内部通信用 service 名。
+      # 注意：environment 优先级高于 env_file，这会覆盖 .env 里的 FALKORDB_URL
+      FALKORDB_URL: falkor://falkordb:6379
+    volumes:
+      # SQLite 管理库持久化；容器内默认路径即包目录下的 data/manage.db
+      - manage_data:/app/backend/src/app/data
+    depends_on:
+      falkordb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8065/health', timeout=5)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s   # 首次启动要跑迁移 + 冷启动，放宽一点
+
+  falkordb:
+    image: falkordb/falkordb:latest
+    # 不映射到宿主机端口，仅供 compose 内部访问；需要外部调试时取消下一行注释
+    # ports:
+    #   - "6379:6379"
+    volumes:
+      - falkordb_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  manage_data:
+  falkordb_data:

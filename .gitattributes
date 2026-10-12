@@ -1,0 +1,5 @@
+# 统一换行符，防止 Windows 下检出 CRLF 导致容器内 shell 脚本报 bad interpreter。
+# 仓库代码以 LF 入库和检出；Windows 批处理文件保持 CRLF。
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
