@@ -17,6 +17,8 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
+          cache-suffix: v2   # 失败任务也会存缓存；换 key 防止坏缓存被后续运行恢复
+      - run: uv --version    # 排障用：锁文件校验与 uv 版本相关
       - run: uv sync --frozen --dev
       - run: uv run pytest -q
 

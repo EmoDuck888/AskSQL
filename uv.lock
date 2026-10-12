@@ -1935,7 +1935,6 @@ requires-dist = [
     { name = "falkordb", specifier = ">=1.0.0" },
     { name = "fastapi", specifier = ">=0.115.0" },
     { name = "fastmcp", specifier = ">=3.2.4" },
-    { name = "graphiti-core", specifier = ">=0.28.1" },
     { name = "graphiti-core", specifier = ">=0.29.1" },
     { name = "jinja2", specifier = ">=3.1.4" },
     { name = "langchain-community", specifier = ">=0.4.1" },
