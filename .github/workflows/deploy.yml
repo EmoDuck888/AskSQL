@@ -44,8 +44,6 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
   # 第三节：SSH 上云主机拉取指定 sha 的镜像并重启。
   # 回滚 = 重新跑一次 workflow（Run workflow 选旧 commit），
