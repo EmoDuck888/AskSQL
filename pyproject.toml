@@ -2,7 +2,7 @@
 name = "nl2sql"
 version = "0.1.0"
 description = "Add your description here"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "deepagents>=0.5.5",
     "fastapi>=0.115.0",
