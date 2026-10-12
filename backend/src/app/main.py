@@ -7,6 +7,13 @@ from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+# slowapi 限流：默认每 IP 30 次/分钟，盖住所有接口（重点是 LLM 调用类），
+# 防止公开部署后接口被刷、LLM 余额被盗用。
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.util import get_remote_address
+
 # Load environment variables from .env file
 # Try multiple common locations so .env is found regardless of cwd.
 _project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -64,12 +71,28 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down nl2sql API...")
 
 
+# API 文档路径由环境变量控制：
+#   默认 /docs（本地开发方便）；
+#   生产环境 .env 里设 DOCS_PATH=/docs-<随机串> 藏到不易扫描的路径，
+#   或直接 DOCS_PATH= （空值）完全关闭文档。
+# 公开部署时把 Swagger 留在默认路径等于把接口说明书挂在门外的墙上。
+_docs_path = os.getenv("DOCS_PATH", "/docs") or None
+
+limiter = Limiter(key_func=get_remote_address, default_limits=["30/minute"])
+
 app = FastAPI(
     title="NL2SQL API",
     description="Enterprise natural language to SQL service",
     version="0.2.0",
     lifespan=lifespan,
+    docs_url=_docs_path,
+    redoc_url=None,
+    openapi_url=f"{_docs_path}/openapi.json" if _docs_path else None,
 )
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+# default_limits 需要 SlowAPIMiddleware 才生效
+app.add_middleware(SlowAPIMiddleware)
 
 # CORS
 app.add_middleware(
