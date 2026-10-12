@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 env:
-  # ghcr 命名空间 = GitHub 用户名/组织名，镜像名随意但要和 compose 里一致
-  IMAGE: ghcr.io/${{ github.repository_owner }}/asksql-api
+  # 镜像名必须全小写（Docker 规范），repository_owner 是 EmoDuck888，只能手写小写版
+  IMAGE: ghcr.io/emoduck888/asksql-api
 
 jobs:
   # 第一节：体检。测试不过，后面都不跑。
