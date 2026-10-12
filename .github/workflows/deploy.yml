@@ -37,13 +37,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ env.IMAGE }}:${{ github.sha }}
-            ${{ env.IMAGE }}:latest
+      # 不用 docker/build-push-action：该 action 在本仓库环境下秒挂（原因待查），
+      # 等价的 buildx CLI 更透明，报错也更好读
+      - name: Build and push image
+        run: |
+          docker buildx build --push \
+            -t ${{ env.IMAGE }}:${{ github.sha }} \
+            -t ${{ env.IMAGE }}:latest \
+            .
 
   # 第三节：SSH 上云主机拉取指定 sha 的镜像并重启。
   # 回滚 = 重新跑一次 workflow（Run workflow 选旧 commit），
